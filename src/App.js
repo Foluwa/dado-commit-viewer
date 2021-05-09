@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import AppHeader from './components/AppHeader';
 import Loading from './components/Loading';
@@ -10,6 +10,7 @@ const App = () => {
 
   const [isLoading, setLoading] = useState(false);
   const [commitData, setCommitData] = useState(true);
+  const [trendingRepos, setTrendingRepos] = useState([]);
   const [searchQuery, setSearchQuery] = useState({
     reponame: ""
   });
@@ -33,28 +34,25 @@ const App = () => {
 
   const fetchCommits = () => {
     setLoading(true);
-    console.log(`https://api.github.com/repos/${searchQuery.reponame}/commits?per_page=10`)
     axios.get(`https://api.github.com/repos/${searchQuery.reponame}/commits?per_page=10`)
       .then((response) => {
         setCommitData(response.data);
       });
   }
 
-  // const fetchTrending = (user) => {
-  //   if (trendingHasData === false) {
-  //     axios.get(`https://api.github.com/users/${user}/repos`)
-  //       .then((response) => {
-  //         if (typeof response !== 'undefined' && response) {
-  //           let data = response.data.slice(0, 4);
-  //           console.log({ data })
-  //           console.log(typeof data)
+  useEffect(() => {
+    async function fetchData(user) {
+      const response = await axios.get(`https://api.github.com/users/${user}/repos`)
+      setTrendingRepos(response.data.slice(0, 4));
+    }
+    fetchData('foluwa');
+  }, []);
 
-  //           setTrendingRepo(data);
-  //           setTrendingHasData(true);
-  //         }
-  //       });
-  //   }
-  // }
+  const suggestedRepo = (data) => {
+    console.log(data.full_name)
+    searchQuery.reponame = data.full_name
+    fetchCommits();
+  }
 
   return (
     (!commitData.length) ? ((isLoading) ? (<Loading searchQuery={searchQuery.reponame} />) : (<div>
@@ -98,9 +96,12 @@ const App = () => {
 
         <p className="center">Or pick one of these suggested repos</p>
         <div className="center suggested-repos-list">
-          <a href="/#" className="suggested-repos">django/django</a>
-          <a href="/#" className="suggested-repos">django/django</a>
-          <a href="/#" className="suggested-repos">django/django</a>
+          {trendingRepos.map((commit, index) => (
+            <a href="/#"
+              onClick={() => suggestedRepo(commit)}
+              key={index} className="suggested-repos">{commit.full_name}</a>
+          ))}
+
         </div>
 
       </div>

@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import AppHeader from '../AppHeader/index';
 
 const index = ({ commits, searchQuery }) => {
+    // Formate date
     const formatDate = (date) => {
         return (new Date(date)).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
     }
