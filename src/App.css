@@ -105,16 +105,21 @@ input[type="text"]{
   width: 100%;/*50%;*/
   background: #DFE4EA;
   border-radius: 8px;
-  height: 3em;
+  /* height: 3em; */
+  padding: 1em;
   border-color: #DFE4EA;
+
+  font-size: 20px;
 }
 
 input[type="submit"]{
   background: #F3663F;
   border-radius: 8px;
-  height: 3em;
+  /* height: 3em; */
+  padding: 0.8em;
   color: #fff;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 20px;
 
 }
 /* END OF INPUT */
@@ -166,9 +171,8 @@ ul{
   text-align: end;
 }
 
-/*  */
 
-/* // X-Small devices (portrait phones, less than 576px) */
+
 @media (max-width: 575.98px) { 
   .group {
     width: 90% !important;
@@ -191,30 +195,6 @@ ul{
 
 }
 
-/* // Small devices (landscape phones, less than 768px)
-@media (max-width: 767.98px) { ... }
-
-// Medium devices (tablets, less than 992px)
-@media (max-width: 991.98px) { ... }
-
-// Large devices (desktops, less than 1200px)
-@media (max-width: 1199.98px) { ... }
-
-// X-Large devices (large desktops, less than 1400px)
-@media (max-width: 1399.98px) { ... }
-
-// XX-Large devices (larger desktops)
-// No media query since the xxl breakpoint has no upper bound on its width */
-
-
-/* END OF DONE */
-
-
-
-
-
-
-/* (A) 3 COLUMNS ON BIG SCREEN */
 .blockWrap { 
   margin: 0 auto;
   display: grid;
@@ -242,13 +222,6 @@ ul{
 }
 
 
-
-
-
-
-
-
-
 /* SEARCH OPTION */
 /*  SECTIONS  */
 .section {
@@ -270,13 +243,6 @@ ul{
 .group:after { content:""; display:table; }
 .group:after { clear:both;}
 .group { zoom:1;     width: 50%; /* For IE 6/7 */ }
-/*  GRID OF TWO  */
-/* .span_2_of_2 {
-	width: 100%;
-}
-.span_1_of_2 {
-	width: 49.5%;
-} */
 
 .span_2_of_2 {
 	width: 70%;
@@ -296,4 +262,63 @@ ul{
 
 @media only screen and (max-width: 480px) {
 	.span_2_of_2, .span_1_of_2 { width: 100%; }
+}
+
+
+/* LIST COMMITS */
+h3.search-query{
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 44px;
+}
+
+.author-name{
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.3750em;
+  line-height: 30px;
+  color: #18214D;
+}
+.commit-message{
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.4px;
+  color: #18214D;
+}
+
+.commit-date{
+  color: #18214D;
+}
+
+.container{
+  display: grid;
+  grid-template-columns: 1fr 4fr 2fr;
+}
+
+/* large screens */
+@media (min-width: 991.98px) { 
+  .container{
+  margin-left: 6em;
+  margin-right: 6em;
+  }
+  .message-date{
+    align-self: center;
+  }
+  .item{
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+ }
+
+@media only screen and (max-width: 480px) {
+	.container { 
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; }
 }

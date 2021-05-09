@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 import AppHeader from './components/AppHeader';
 import Loading from './components/Loading';
@@ -7,12 +7,12 @@ import './App.css';
 
 
 const App = () => {
+
   const [isLoading, setLoading] = useState(false);
   const [commitData, setCommitData] = useState(true);
   const [searchQuery, setSearchQuery] = useState({
-    reponame: "" 
+    reponame: ""
   });
-  const [trendingRepo, setTrendingRepo] = useState([]);
   const [searchborderColor, setSearchborderColor] = useState(false);
   const handleChange = (e) => {
     setSearchQuery({
@@ -21,17 +21,12 @@ const App = () => {
     });
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   setLoading(true);
-
-  // }
-
   const handleHover = () => {
     setSearchQuery({ reponame: "microsoft/vscode" });
     searchQuery.reponame = "microsoft/vscode";
     setSearchborderColor(true);
   }
+
   const undoHandleHover = () => {
     setSearchborderColor(false);
   }
@@ -43,31 +38,26 @@ const App = () => {
       .then((response) => {
         setCommitData(response.data);
       });
-
   }
 
-  const fetchTrending = (user) => {
-    axios.get(`https://api.github.com/users/${user}/repos`)
-      .then((response) => {
-        if(typeof response !== 'undefined' && response){
-        setTrendingRepo(response.data.slice(0, 4));
-        }
+  // const fetchTrending = (user) => {
+  //   if (trendingHasData === false) {
+  //     axios.get(`https://api.github.com/users/${user}/repos`)
+  //       .then((response) => {
+  //         if (typeof response !== 'undefined' && response) {
+  //           let data = response.data.slice(0, 4);
+  //           console.log({ data })
+  //           console.log(typeof data)
 
-      });
-      
-  }
-  const suggestedRepo = (data) => {
-    setCommitData(data)
-  }
-
-  useEffect(() => {
-    // fetchTrending('foluwa');
-    console.log('Iwas called');
-  }, []);
-
+  //           setTrendingRepo(data);
+  //           setTrendingHasData(true);
+  //         }
+  //       });
+  //   }
+  // }
 
   return (
-    (!commitData.length) ? ((isLoading) ? (<Loading />) : (<div>
+    (!commitData.length) ? ((isLoading) ? (<Loading searchQuery={searchQuery.reponame} />) : (<div>
       <AppHeader />
       <div className="main">
         <div className="center banner-text">
@@ -94,9 +84,7 @@ const App = () => {
                 onMouseLeave={undoHandleHover}
                 style={{ borderColor: searchborderColor ? '#000' : '#DFE4EA' }}
               />
-
             </div>
-            {/* border-color */}
             <div className="col span_1_of_2">
               <input
                 type="submit"
@@ -109,19 +97,12 @@ const App = () => {
         </div>
 
         <p className="center">Or pick one of these suggested repos</p>
-
         <div className="center suggested-repos-list">
-          {trendingRepo.map((trending, index) => (
-            <a onClick={suggestedRepo(trending)} href="/#" key={index} className="suggested-repos">folwa/{trending.name}</a>
-          ))}
-
-
-          {/* // trendingRepo */}
-
-          {/* <a href="/#" className="suggested-repos">django/django</a>
           <a href="/#" className="suggested-repos">django/django</a>
-          <a href="/#" className="suggested-repos">django/django</a> */}
+          <a href="/#" className="suggested-repos">django/django</a>
+          <a href="/#" className="suggested-repos">django/django</a>
         </div>
+
       </div>
     </div>)) : (<ListCommits commits={commitData} searchQuery={searchQuery.reponame} />));
 

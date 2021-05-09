@@ -1,26 +1,29 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import AppHeader from '../AppHeader/index';
 
 const index = ({ commits, searchQuery }) => {
+    const formatDate = (date) => {
+        return (new Date(date)).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
+    }
     return (
         <div>
             <AppHeader />
             <div className="main">
                 <div className="center">
-                    <h3>{searchQuery}</h3>
+                    <h3 className="search-query">{searchQuery}</h3>
                 </div>
-                <ul>
+                <div className="container">
                     {commits.map((commit, index) => (
-                        <li key={index} className="blockWrap">
-                            <div className="blockCol" style={{display: 'inline-table'}}> 
+                        <Fragment key={index} >
+                            <div className="item"> 
                                 <img className="avatar" src={commit.committer.avatar_url} alt={commit.commit.author.name} />
-                                <div>{commit.commit.author.name}</div>
-                             </div>
-                            <div className="blockCol"><b>{commit.commit.message}</b></div>
-                            <div className="blockCol commit-datetime">{commit.commit.author.date}</div>
-                        </li>
+                                <div className="author-name">{commit.commit.author.name}</div>
+                            </div>
+                            <div className="item commit-message message-date"> {commit.commit.message} </div>
+                            <div className="item commit-date message-date"> {formatDate(commit.commit.author.date)} </div>
+                        </Fragment>
                     ))}
-                </ul>
+                </div>
             </div>
         </div>
 
